@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BENCHUKS KITCHENWARES</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f1f5ff;
+}
+
+/* HEADER */
+header {
+    background: #0a66c2;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* LOGIN BOX */
+.loginBox {
+    display: flex;
+    gap: 8px;
+}
+
+.loginBox input {
+    padding: 6px;
+    border-radius: 5px;
+    border: none;
+}
+
+.loginBox button {
+    background: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #0a66c2;
+    font-weight: bold;
+}
+
+/* HERO */
+.hero {
+    background: linear-gradient(90deg, #0a66c2, #4da3ff);
+    color: white;
+    text-align: center;
+    padding: 25px;
+}
+
+/* PRODUCTS */
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    padding: 15px;
+}
+
+.product {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.product img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.product h4 {
+    margin: 10px;
+    font-size: 14px;
+}
+
+.btn {
+    background: #0a66c2;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* CART */
+.cart {
+    position: fixed;
+    right: 10px;
+    top: 100px;
+    background: white;
+    width: 230px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+/* USER STATUS */
+#userStatus {
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    color: #0a66c2;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <h2>BENCHUKS KITCHENWARES</h2>
+
+    <div class="loginBox">
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <button onclick="signup()">Signup</button>
+    </div>
+</header>
+
+<div id="userStatus">Not logged in</div>
+
+<div class="hero">
+    <h2>BENCHUKS KITCHENWARES</h2>
+    <p>Fast delivery • WhatsApp order • Trusted store</p>
+</div>
+
+<!-- CART -->
+<div class="cart">
+    <h3>Cart</h3>
+    <ul id="cartList"></ul>
+    <button onclick="checkout()">Checkout</button>
+</div>
+
+<!-- PRODUCTS -->
+<div class="products">
+
+    <div class="product">
+        <img src="https://photos.app.goo.gl/GEAxoD4oo6o8hUsb9">
+        <h4>Air Fryer</h4>
+        <div class="btn" onclick="add('Air Fryer')">Add to Cart</div>
+    </div>
+
+    <div class="product">
+        <img src="https://photos.app.goo.gl/oxv2rA8N4qkGPBoH6">
+        <h4>Blender</h4>
+        <div class="btn" onclick="add('Blender')">Add to Cart</div>
+    </div>
+
+    <div class="product">
+        <img src="https://photos.app.goo.gl/hUxEj956ZF7Af9SCA">
+        <h4>Soup Pot</h4>
+        <div class="btn" onclick="add('Soup Pot')">Add to Cart</div>
+    </div>
+
+    <div class="product">
+        <img src="https://photos.app.goo.gl/cPXCX4KFaCQNwZLc9">
+        <h4>Pounded Yam Blender</h4>
+        <div class="btn" onclick="add('Pounded Yam Blender')">Add to Cart</div>
+    </div>
+
+    <div class="product">
+        <img src="https://images.unsplash.com/photo-1584467735871-8f8b6b7b6c12">
+        <h4>Kitchen Pots Set</h4>
+        <div class="btn" onclick="add('Kitchen Pots Set')">Add to Cart</div>
+    </div>
+
+</div>
+
+<script>
+let cart = [];
+let user = null;
+
+/* SIGNUP */
+function signup(){
+    let u = document.getElementById("username").value;
+    let p = document.getElementById("password").value;
+    localStorage.setItem(u, p);
+    alert("Account created!");
+}
+
+/* LOGIN */
+function login(){
+    let u = document.getElementById("username").value;
+    let p = document.getElementById("password").value;
+
+    if(localStorage.getItem(u) === p){
+        user = u;
+        document.getElementById("userStatus").innerText = "Welcome " + user;
+    } else {
+        alert("Wrong login details");
+    }
+}
+
+/* CART */
+function add(item){
+    if(!user){
+        alert("Please login first");
+        return;
+    }
+    cart.push(item);
+    updateCart();
+}
+
+function updateCart(){
+    let list = document.getElementById("cartList");
+    list.innerHTML = "";
+    cart.forEach(i=>{
+        let li = document.createElement("li");
+        li.textContent = i;
+        list.appendChild(li);
+    });
+}
+
+/* CHECKOUT */
+function checkout(){
+    let msg = "Hello, I want to buy:%0A";
+    cart.forEach(i=>{
+        msg += "- " + i + "%0A";
+    });
+
+    window.open("https://wa.me/2348033476692?text=" + msg,"_blank");
+}
+</script>
+
+</body>
+</html>
